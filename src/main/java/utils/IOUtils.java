@@ -22,13 +22,15 @@ public class IOUtils {
         return String.copyValueOf(body);
     }
 
-    public static String  readData(InputStream in) throws IOException {
+    public static String readData(InputStream in) {
         BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(in));
-
         String readData;
-
-        if (!StringUtils.isEmpty(readData = bufferedReader.readLine())) {
-            return readData;
+        try {
+            if (!StringUtils.isEmpty(readData = bufferedReader.readLine())) {
+                return readData;
+            }
+        } catch (IOException e) {
+            e.getMessage();
         }
         return "";
     }

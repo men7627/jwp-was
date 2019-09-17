@@ -26,6 +26,8 @@ public class RequestHandler implements Runnable {
         try (InputStream in = connection.getInputStream(); OutputStream out = connection.getOutputStream()) {
             DataOutputStream dos = new DataOutputStream(out);
 
+//            HttpRequest request = HttpRequestParser.parse(in);
+
             HttpRequestParser parser = new HttpRequestParser(in);
 
             byte[] body = parser.doService();

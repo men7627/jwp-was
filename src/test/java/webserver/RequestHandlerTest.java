@@ -48,7 +48,7 @@ class RequestHandlerTest {
 
         System.err.println(outputStream.toString());
 
-        assertThat(outputStream.toString()).isNotBlank();
+        assertThat(outputStream.toString()).isNotEmpty();
     }
 
     @Test
@@ -59,7 +59,6 @@ class RequestHandlerTest {
         try {
             when(socket.getInputStream()).thenReturn(inputStream);
             when(socket.getOutputStream()).thenReturn(outputStream);
-
         } catch (IOException e) {
             System.err.println(e.getMessage());
         }

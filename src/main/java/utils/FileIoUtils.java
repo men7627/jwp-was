@@ -8,11 +8,15 @@ import java.nio.file.Paths;
 
 public class FileIoUtils {
     public static byte[] loadFileFromClasspath(String filePath) throws IOException, URISyntaxException {
-        Path path = Paths.get(FileIoUtils.class.getClassLoader().getResource(filePath).toURI());
+        Path path = getPath(filePath);
         return Files.readAllBytes(path);
     }
 
-    public static boolean existResource(String uri) {
-        return Files.exists(Paths.get(uri));
+    public static boolean existResource(String uri) throws URISyntaxException {
+        return Files.exists(getPath(uri));
+    }
+
+    private static Path getPath(String uri) throws URISyntaxException {
+        return Paths.get(FileIoUtils.class.getClassLoader().getResource(uri).toURI());
     }
 }
