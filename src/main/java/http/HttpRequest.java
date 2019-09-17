@@ -1,10 +1,13 @@
 package http;
 
 public class HttpRequest {
-    private String method;
-    private String uri;
+    private HttpRequestHeadLine headLine;
 
-    public HttpRequest(String method, String uri, String protocol, QueryParameter parameters) {
+    public HttpRequest(HttpRequestHeadLine headLine) {
+        this.headLine = headLine;
+    }
 
+    public String getUri() {
+        return headLine.getUri();
     }
 }
