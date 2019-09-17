@@ -1,7 +1,11 @@
 package utils;
 
+import org.springframework.util.StringUtils;
+
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 
 public class IOUtils {
     /**
@@ -16,5 +20,16 @@ public class IOUtils {
         char[] body = new char[contentLength];
         br.read(body, 0, contentLength);
         return String.copyValueOf(body);
+    }
+
+    public static String  readData(InputStream in) throws IOException {
+        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(in));
+
+        String readData;
+
+        if (!StringUtils.isEmpty(readData = bufferedReader.readLine())) {
+            return readData;
+        }
+        return "";
     }
 }
