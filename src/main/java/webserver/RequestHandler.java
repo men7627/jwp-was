@@ -2,8 +2,6 @@ package webserver;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import utils.FileIoUtils;
-import utils.IOUtils;
 
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -28,24 +26,21 @@ public class RequestHandler implements Runnable {
         try (InputStream in = connection.getInputStream(); OutputStream out = connection.getOutputStream()) {
             DataOutputStream dos = new DataOutputStream(out);
 
-            String requestHeader = IOUtils.readData(in);
-            String[] requestHeaders = requestHeader.split(" ");
+            HttpRequestParser parser = new HttpRequestParser(in);
 
-            if (requestHeaders[1].equals("/index.html")) {
-                byte[] body = FileIoUtils.loadFileFromClasspath("./templates/index.html");
-                response200Header(dos, body.length);
-                responseBody(dos, body);
-                return;
-            }
+            byte[] body = parser.doService();
 
-            byte[] body = "NOT_FOUND".getBytes();
-            response200Header(dos, body.length);
-            responseBody(dos, body);
+            writeOutputStream(dos, body);
         } catch (IOException e) {
             logger.error(e.getMessage());
         } catch (URISyntaxException e) {
             logger.error(e.getMessage());
         }
+    }
+
+    private void writeOutputStream(DataOutputStream dos, byte[] body) {
+        response200Header(dos, body.length);
+        responseBody(dos, body);
     }
 
     private void response200Header(DataOutputStream dos, int lengthOfBodyContent) {
