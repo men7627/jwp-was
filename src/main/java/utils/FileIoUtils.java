@@ -11,8 +11,4 @@ public class FileIoUtils {
         Path path = Paths.get(FileIoUtils.class.getClassLoader().getResource(filePath).toURI());
         return Files.readAllBytes(path);
     }
-
-    public static byte[] loadFileFromAbsolutepath(String filePath) throws IOException, URISyntaxException {
-        return Files.readAllBytes(Paths.get(filePath));
-    }
 }

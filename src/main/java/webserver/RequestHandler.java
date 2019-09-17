@@ -1,16 +1,16 @@
 package webserver;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import utils.FileIoUtils;
+import utils.IOUtils;
+
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.Socket;
 import java.net.URISyntaxException;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import utils.FileIoUtils;
-import utils.IOUtils;
 
 public class RequestHandler implements Runnable {
     private static final Logger logger = LoggerFactory.getLogger(RequestHandler.class);
@@ -32,7 +32,7 @@ public class RequestHandler implements Runnable {
             String[] requestHeaders = requestHeader.split(" ");
 
             if (requestHeaders[1].equals("/index.html")) {
-                byte[] body = FileIoUtils.loadFileFromAbsolutepath("/Users/jyk/Desktop/WooWa/jwp-was/out/production/resources/templates/index.html");
+                byte[] body = FileIoUtils.loadFileFromClasspath("./templates/index.html");
                 response200Header(dos, body.length);
                 responseBody(dos, body);
                 return;
@@ -43,7 +43,7 @@ public class RequestHandler implements Runnable {
             responseBody(dos, body);
         } catch (IOException e) {
             logger.error(e.getMessage());
-        }  catch (URISyntaxException e) {
+        } catch (URISyntaxException e) {
             logger.error(e.getMessage());
         }
     }
