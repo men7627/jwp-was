@@ -1,21 +1,20 @@
-package webserver;
+package http;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import utils.FileIoUtils;
 import utils.IOUtils;
+import webserver.RequestHandler;
 
-import java.io.IOException;
 import java.io.InputStream;
-import java.net.URISyntaxException;
 
 public class HttpRequestParser {
     private static final Logger logger = LoggerFactory.getLogger(RequestHandler.class);
     private static final String ROOT_PATH = "./templates";
-    private static final String QUERYSTRING_INDICATOR = "?";
+    private static final String QUERY_STRING_INDICATOR = "?";
     private HttpRequestHeadLine headLine;
 
-    public HttpRequestParser(InputStream in) throws IOException {
+    public HttpRequestParser(InputStream in) {
         this.headLine = new HttpRequestHeadLine(IOUtils.readData(in));
     }
 
@@ -25,15 +24,15 @@ public class HttpRequestParser {
         String method = headLine.getMethod();
         String uri = headLine.getUri();
         String protocol = headLine.getProtocol();
-        QueryParameter parameters = headLine.getParameters();
-        return new HttpRequest(method, uri, protocol, parameter);
+        QueryParameter parameters = headLine.getParameter();
+        return new HttpRequest(method, uri, protocol, parameters);
     }
 
-    public byte[] doService() throws IOException, URISyntaxException {
+    public byte[] doService() {
         String uri = ROOT_PATH + headLine.getUri();
         logger.info(uri);
 
-        if (uri.contains(QUERYSTRING_INDICATOR)) {
+        if (uri.contains(QUERY_STRING_INDICATOR)) {
             System.out.println(uri);
         }
 

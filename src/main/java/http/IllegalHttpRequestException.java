@@ -1,4 +1,4 @@
-package webserver;
+package http;
 
 public class IllegalHttpRequestException extends RuntimeException {
     public IllegalHttpRequestException() {
