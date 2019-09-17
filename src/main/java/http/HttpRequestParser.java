@@ -4,6 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import utils.FileIoUtils;
 import utils.IOUtils;
+import utils.NoSuchResource;
 import webserver.RequestHandler;
 
 import java.io.InputStream;
@@ -12,6 +13,7 @@ public class HttpRequestParser {
     private static final Logger logger = LoggerFactory.getLogger(RequestHandler.class);
     private static final String ROOT_PATH = "./templates";
     private static final String QUERY_STRING_INDICATOR = "?";
+
     private HttpRequestHeadLine headLine;
 
     public HttpRequestParser(InputStream in) {
@@ -36,9 +38,11 @@ public class HttpRequestParser {
             System.out.println(uri);
         }
 
-        if (FileIoUtils.existResource(uri)) {
+        try {
             return FileIoUtils.loadFileFromClasspath(uri);
+        } catch (NoSuchResource e) {
+            logger.error(e.getMessage());
+            return "NOT_FOUND".getBytes();
         }
-        return "NOT_FOUND".getBytes();
     }
 }
